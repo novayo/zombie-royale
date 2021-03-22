@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  backend:
+    build: ./server
+    expose:
+      - ${SERVER_PORT}
+    environment:
+      CLIENT_URL: ${CLIENT_URL}
+      SERVER_URL: ${SERVER_URL}
+      SERVER_PORT: ${SERVER_PORT}
+    volumes: 
+      - ./server:/app/shihchungyu/server
+    ports:
+      - "${SERVER_PORT}:${SERVER_PORT}"
+    # command: npm run start
+  frontend:
+    build: ./client
+    expose:
+      - ${CLIENT_PORT}
+    environment:
+      CLIENT_URL: ${CLIENT_URL}
+      CLIENT_PORT: ${CLIENT_PORT}
+    volumes: 
+      - ./client/src:/app/shihchungyu/client/src
+      - ./client/public:/app/shihchungyu/client/public
+    ports:
+      - "${CLIENT_PORT}:${CLIENT_PORT}"
+    links: 
+      - backend
+    # command: npm run start
