@@ -1,31 +1,11 @@
-const express = require('express');
-const socketio = require('socket.io');
-const http = require('http');
+const SOCKET = require('./utils/socket');
+const gv_ = require('./utils/globalVariable');
 
 const PORT = process.env.SERVER_PORT || 5000;
 
-const router = require('./router');
+SOCKET.SERVER.listen(PORT, () => console.log(`Server has started on port ${PORT}`));
 
-const app = express();
-const server = http.createServer(app);
-const io = socketio(server, {
-    //https://stackoverflow.com/a/64805972
-    cors: {
-        origin: `http://localhost:3000`,
-        credentials: true
-    }
-}); //https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
-
-app.use(router); // as middleware
-
-io.on('connection', (socket) => {
-    socket.on('SetRoom', (data) => {
-        if (data.room) {
-            console.log(data)
-        } else {
-            socket.emit('getRoom', { 'room': 'randomRoomNumber' })
-        }
-    })
-});
-
-server.listen(PORT, () => console.log(`Server has started on port ${PORT}`));
+setInterval(() => {
+    all_username = gv_.getAllUserName() // read
+    console.log(`當前所有使用者名稱：${all_username}`)
+}, 1000)
