@@ -1,36 +1,29 @@
 
 module.exports = class Users {
     constructor() {
-        this.data = {} // {'socket_id': {'name', 'room'}}
-        this.room = {} // {'room': [socket_id]}
+        this.data = {} // {'socket_id': {'name', 'room', }}
+        this.room_data = {} // {'room' : {'socket_id':[socket_id], 'tick'}}
     }
 
-    addUser(socket_id, name, room) {
+    addUser(socket_id, name, room, tick) {
         // user data
         if (!(socket_id in this.data)) {
-            this.data[socket_id] = { 'name': name, 'room': room }
+            this.data[socket_id] = { 'name': name, 'room': room,}
         }
-
-        // room data
-        if (!(room in this.room)) {
-            this.room[room] = []
+        else{
+            console.log(`[加入使用者異常!] ${socket_id}你已經在裡面了`);    //未來寫成Log.txt
+            return;
         }
-        if (!(socket_id in this.room[room])) {
-            this.room[room].push(socket_id)
+        // room data : init
+        if (!(room in this.room_data)) {
+            this.room_data[room] = {'socket_id': [],  'tick' : tick }
         }
+        // 加入使用者socket id
+        this.room_data[room]['socket_id'].push(socket_id)
     }
 
-    getRoomUsers(room) {
-        if (!room in this.room) {
-            return
-        }
-
-        let ret = []
-        for (let socket_id of this.room[room]) {
-            username = this.data[socket_id].name;
-            ret.push(username);
-        }
-        return ret
+    getAllRoom(){
+        return this.room_data;
     }
 
     getAllUsersName() {
@@ -40,6 +33,15 @@ module.exports = class Users {
             names.push(username);
         }
         return names
+    }
+
+    getRoomTick(room){
+        if(! (room in this.room_data)){
+            return 64;  //未來改成讀取全域設定檔變數
+        }
+        let tick = 0
+        tick = this.room_data[room]['tick']
+        return tick
     }
 
 }

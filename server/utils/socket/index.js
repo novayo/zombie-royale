@@ -17,7 +17,10 @@ const io = socketio(server, {
     }
 }); //https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
 
+
+
 socket_settings(io);
+
 
 module.exports = {
     'SERVER': server
