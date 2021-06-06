@@ -1,30 +1,37 @@
-const socket = require('../socket');
-const Users = require('./users')
+const Handler = require('./data_handler')
 
 
 class globalVariable {
     constructor() {
-        this.users = new Users()
+        this.handler = new Handler()
     }
 
     addUser(_id, name, room, tick) {
-        this.users.addUser(_id, name, room, tick)
+        this.handler.addUser(_id, name, room, tick)
     }
+
     setUserInfo(_id, name, room, kind, r) {
-        this.users.setUserInfo(_id, name, room, kind, r)
+        this.handler.setUserInfo(_id, name, room, kind, r);
     }
 
     getAllUserName() {
-        return this.users.getAllUsersName()
+        return this.handler.getAllUsersName();
     }
+
     getAllUserInfoList() {
-        return this.users.getAllUserInfoList()
+        return this.handler.getAllUserInfoList();
     }
+
+    getRoomBroadcastData(room) {
+        return this.handler.getRoomBroadcastData(room);
+    }
+
     getAllroom() {
-        return this.users.getAllRoom();
+        return this.handler.getAllRoom();
     }
+
     getRoomTick(room) {
-        return this.users.getRoomTick(room);
+        return this.handler.getRoomTick(room);
     }
 }
 

@@ -35,7 +35,6 @@ module.exports = socket_settings = (io) => {
 
             // 用socket id 取出使用者資料
             need_data = gv_.getAllUserInfoList()
-            console.log('======', need_data)
             socket.emit('getUser', need_data)
         })
 
