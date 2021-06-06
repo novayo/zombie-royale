@@ -8,7 +8,7 @@ function Wall1(props) {
             {/* <svg id = {ID} width="50" height="100" style = {{left: posx + 'px', top: posy + 'px', position:'absolute'}}>
                 <rect width="50" height="100" />
             </svg> */}
-            <Svg id = {ID} width="20" height="100" left={posx} top={posy}>
+            <Svg id={ID} width="20" height="100" left={posx} top={posy}>
                 <rect width="20" height="100" />
             </Svg>
         </div>
