@@ -11,7 +11,7 @@ import { Shoot } from './Object/Action/Shoot'
 import io from 'socket.io-client';
 import { URL } from '../Data/Restore'
 
-let socket = io(URL);
+let socket = GetData("socket");
 
 function Start() {
     // console.log(GetData("name"));

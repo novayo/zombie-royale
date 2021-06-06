@@ -1,4 +1,4 @@
-import { user, map, update } from './Restore'
+import { user, map, update, socket } from './Restore'
 
 export function GetData(kind) {
     switch (kind) {
@@ -16,6 +16,8 @@ export function GetData(kind) {
             return user.data
         case "_id":
             return user._id
+        case "socket":
+            return socket
         default:
             return null;
     }

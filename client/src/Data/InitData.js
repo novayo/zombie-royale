@@ -1,8 +1,8 @@
 import io from 'socket.io-client';
 import { URL, user, map, update } from './Restore'
+import { GetData } from '../Data/GetData'
 
 let TEST = true;
-let socket = io(URL);
 
 const guid = () => {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
@@ -12,6 +12,8 @@ const guid = () => {
 }
 
 export function InitData(name, passward) {
+    let socket = GetData("socket");
+
     const _id = guid();
 
     let data = {

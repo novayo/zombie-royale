@@ -1,4 +1,8 @@
+import io from 'socket.io-client';
+
 export const URL = "http://localhost:5000";
+
+export let socket = io(URL);
 
 export var update = {
     state: false,
