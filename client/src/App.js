@@ -1,30 +1,23 @@
+import logo from './logo.svg';
 import './App.css';
-import { useReducer } from 'react'
-
-import { BrowserRouter as Router, Route } from 'react-router-dom';
-
-import Login from './Login/Login'
-import Hall from './Hall/Hall'
-import Start from './Start/Start'
-
-import { userContext, userInitial, userReducer } from './Data/Index';
-import { wallContext, wallInitial, wallReducer } from './Data/Index';
 
 function App() {
-  const [user, setUser] = useReducer(userReducer, userInitial);
-  const [wall, setWall] = useReducer(wallReducer, wallInitial);
-
   return (
     <div className="App">
-      <userContext.Provider value={{ get: user, set: setUser }}>
-        <wallContext.Provider value={{ get: wall, set: setWall }}>
-          <Router>
-            <Route path = "/" exact component = {Login} />
-            <Route path = "/Hall" exact component = {Hall}/>
-            <Route path = "/Start" component = {Start}/>
-          </Router>
-        </wallContext.Provider>
-      </userContext.Provider>
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>
+          This is a Test.
+        </p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
+        </a>
+      </header>
     </div>
   );
 }
