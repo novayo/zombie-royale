@@ -3,6 +3,7 @@ const socketio = require('socket.io');
 const http = require('http');
 const router = require('./router');
 const socket_settings = require('./settings')
+const constants = require('../globalVariable/constants')
 
 const app = express();
 const server = http.createServer(app);
@@ -12,7 +13,7 @@ app.use(router); // as middleware
 const io = socketio(server, {
     //https://stackoverflow.com/a/64805972
     cors: {
-        origin: `http://localhost:3000`,
+        origin: `${constants.CLIENT_URL}:${constants.CLIENT_PORT}`,
         credentials: true
     }
 }); //https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
