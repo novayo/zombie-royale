@@ -11,7 +11,7 @@ function Collision(myCirclePos, speedVector, circle, rect, rad, width, height, r
 
     const circleIntervalEvent = circleInterval(myCirclePos, speedVector, circle, rad);
     if(circleIntervalEvent.event){
-        return Handle(speedVector, myCirclePos, focus.circle[circleIntervalEvent.index].r);
+        return {event: false} // Handle(speedVector, myCirclePos, focus.circle[circleIntervalEvent.index].r);
     }
 
     return {event: true}
