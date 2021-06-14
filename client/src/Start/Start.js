@@ -1,6 +1,5 @@
 import { useEffect, useContext, useCallback, useState } from 'react'
 import GetData from '../Data/GetData'
-import SplitData from './Init/SplitData'
 import SendData from '../Data/SendData'
 import UpdateData from '../Data/UpdateData'
 import RenderUser from './Init/RenderUser'
@@ -8,7 +7,7 @@ import InitUser from './Init/InitUser'
 import { userContext } from '../Core/Index';
 import { wallContext } from '../Core/Index';
 import { KeyUp, KeyDown } from './function/KeyBoard'
-import { Shoot } from './Object/Action/Shoot'
+import { MouseDown } from './function/Mouse'
 import Factory from './Object/Factory/Factory'
 import GetMyUser from './function/GetMyUser'
 
@@ -58,7 +57,6 @@ function Start() {
 
 
     /*==================================== Mouse Event ============================================*/
-    // 處理中
 
     const handleMouseMove = (event) => {
         setMousePos([event.x, event.y]);
@@ -66,20 +64,7 @@ function Start() {
 
     const handleMouseDown = (event) => {
         if (!TEST) {
-            const shoot = Shoot(SplitData(user.get).myUser.r, mousePos, 12, 2);
-            var totalTime = shoot.totalTime;
-            var start = shoot.start;
-
-            const bulletFly = setInterval(() => {
-                if (totalTime === 0) {
-                    clearInterval(bulletFly);
-                }
-
-                start = [start[0] + shoot.speedVector[0], start[1] + shoot.speedVector[1]];
-                SendData("setUser", { r: start, kind: "Bullet", name: GetData("name"), room: GetData("room") });
-                totalTime -= shoot.timeStep;
-
-            }, shoot.timeStep);
+            MouseDown(GetMyUser(user.get), mousePos)
         }
     }
 

@@ -35,7 +35,7 @@ export const Move = (key, speed) => {
     
 }
 
-export const KeyUp = (key) => { // user => {allUser: allUser, myUser: myUser}
+export const KeyUp = (key) => {
     if (Keyboard('keyup', key)) {
         SendData("setUser", { r: [Math.floor(Math.random() * 500), Math.floor(Math.random() * 500)], kind: key, name: GetData("name"), room: GetData("room") });
     }
