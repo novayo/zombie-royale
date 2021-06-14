@@ -1,17 +1,17 @@
 import { useEffect, useContext, useCallback, useState } from 'react'
-import { LoadData } from '../Data/LoadData'
-import { GetData } from '../Data/GetData'
-import { originUser, InitUser } from './Init/InitUser'
-import { userContext } from '../Data/Index';
-import { wallContext } from '../Data/Index';
-import { Keyboard, Move } from './KeyBoard/KeyBoard'
-import Factory from './Object/Factory/Factory'
-import Collision from './Object/Collision/Collision'
+import GetData from '../Data/GetData'
+import SplitData from './Init/SplitData'
+import SendData from '../Data/SendData'
+import UpdateData from '../Data/UpdateData'
+import RenderUser from './Init/RenderUser'
+import InitUser from './Init/InitUser'
+import { userContext } from '../Core/Index';
+import { wallContext } from '../Core/Index';
+import { KeyUp, KeyDown } from './function/KeyBoard'
 import { Shoot } from './Object/Action/Shoot'
-import io from 'socket.io-client';
-import { URL } from '../Data/Restore'
+import Factory from './Object/Factory/Factory'
+import GetMyUser from './function/GetMyUser'
 
-let socket = GetData("socket");
 const TEST = true
 
 function Start() {
@@ -20,72 +20,29 @@ function Start() {
     const wall = useContext(wallContext);
     const [mousePos, setMousePos] = useState([null, null]);
     const [bulletPos, setBulletPos] = useState([]);
-    // const originUser = InitUser();
 
-    const sendDataToServer = (data) => {
-        data._id = GetData('_id')
-        // console.log('送資料給server')
-        // console.log("Client Send:");
-        // console.log('位置：', data.r);
+    /*==================================== Start Process ============================================*/
 
-        // user.set({ opr: "set", user: data });
-        // if (data.kind === "Bullet") {
-        //     setBulletPos([data]);
-        // } else if (data.kind === "x") {
-        //     wall.set({ opr: "add", wall: data });
-        // } else if (data.kind === "move") {
-        //     user.set({ opr: "update", user: data });
-        // } else {
-        //     user.set({ opr: "add", user: data });
-        // }
-        socket.emit("setUser", data);
-    }
-
-    const getDataFromServer = () => {
-        // console.log('從Server取得所有使用者資料')
-        socket.on("updateGameData", (data) => {
-            user.set({ opr: "set", user: data });
-        });
-    }
-
-    // 遊戲開始流程
     useEffect(() => {
-        if (!GetData("update").state) {
-            LoadData();
-            InitUser(getDataFromServer, sendDataToServer); // 之後要拿掉
+        if (GetData("update").state) {
+            InitUser(UpdateData, SendData, () => RenderUser(user, wall));
         } else {
-            InitUser(getDataFromServer, sendDataToServer);
+            InitUser(UpdateData, SendData, () => RenderUser(user, wall)); // 之後要拿掉或改成LoadData()
         }
-        // getDataFromServer();
-        // sendDataToServer(originUser.myUser)
 
         // eslint-disable-next-line
     }, [])
 
 
-    const handleKeyUp = useCallback((event) => {
-        if (Keyboard('keyup', event.key)) {
-            sendDataToServer({ r: [Math.floor(Math.random() * 500), Math.floor(Math.random() * 500)], kind: event.key, name: GetData("name"), room: GetData("room") });
-        }
+    /*==================================== KeyBoard Event ============================================*/
 
+    const handleKeyUp = useCallback((event) => {
+        KeyUp(event.key);
         // eslint-disable-next-line
     }, [user.get, wall.get])
 
-
     const handleKeyDown = useCallback((event) => {
-        if (Keyboard('keydown', event.key)) {
-            var move = Move(event.key, 5);
-            var collision = Collision(originUser.myUser.r, move, user.get, wall.get, 12, 20, 100, { left: [0, 500], top: [0, 500] });
-            if (collision.move !== undefined) {
-                move = collision.move;
-            }
-            if (collision.event) {
-                originUser.myUser.r = [originUser.myUser.r[0] + move[0], originUser.myUser.r[1] + move[1]];
-                sendDataToServer({ r: originUser.myUser.r, kind: "z", name: GetData("name"), room: GetData("room") });
-            }
-
-        }
-
+        KeyDown(event.key, {allUser: user.get, myUser: GetMyUser(user.get)}, wall.get)
         // eslint-disable-next-line
     }, [user.get, wall.get])
 
@@ -99,13 +56,17 @@ function Start() {
         }
     }, [handleKeyDown, handleKeyUp])
 
+
+    /*==================================== Mouse Event ============================================*/
+    // 處理中
+
     const handleMouseMove = (event) => {
         setMousePos([event.x, event.y]);
     }
 
     const handleMouseDown = (event) => {
         if (!TEST) {
-            const shoot = Shoot(originUser.myUser.r, mousePos, 12, 2);
+            const shoot = Shoot(SplitData(user.get).myUser.r, mousePos, 12, 2);
             var totalTime = shoot.totalTime;
             var start = shoot.start;
 
@@ -115,7 +76,7 @@ function Start() {
                 }
 
                 start = [start[0] + shoot.speedVector[0], start[1] + shoot.speedVector[1]];
-                sendDataToServer({ r: start, kind: "Bullet", name: GetData("name"), room: GetData("room") });
+                SendData("setUser", { r: start, kind: "Bullet", name: GetData("name"), room: GetData("room") });
                 totalTime -= shoot.timeStep;
 
             }, shoot.timeStep);
@@ -140,6 +101,8 @@ function Start() {
         }
     }, [bulletPos, mousePos])
 
+
+    /*==================================== Render Object ============================================*/
 
     return (
         <div>

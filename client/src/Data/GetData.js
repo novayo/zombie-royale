@@ -1,19 +1,19 @@
-import { user, map, update, socket } from './Restore'
+import { user, map, update, updateGameData, socket } from './DataHelper/Restore'
 
-export function GetData(kind) {
+function GetData(kind) {
     switch (kind) {
         case "update":
             return update;
         case "room":
-            return user.Room;
+            return user.room;
         case "name":
             return user.name;
         case "windowSize":
             return user.windowSize;
         case "map":
             return map
-        case "data":
-            return user.data
+        case "updateGameData":
+            return updateGameData.data
         case "_id":
             return user._id
         case "socket":
@@ -23,3 +23,5 @@ export function GetData(kind) {
     }
 
 }
+
+export default GetData;

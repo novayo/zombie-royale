@@ -7,8 +7,8 @@ import Login from './Login/Login'
 import Hall from './Hall/Hall'
 import Start from './Start/Start'
 
-import { userContext, userInitial, userReducer } from './Data/Index';
-import { wallContext, wallInitial, wallReducer } from './Data/Index';
+import { userContext, userInitial, userReducer } from './Core/Index';
+import { wallContext, wallInitial, wallReducer } from './Core/Index';
 
 function App() {
   const [user, setUser] = useReducer(userReducer, userInitial);
