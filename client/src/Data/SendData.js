@@ -1,7 +1,7 @@
 import GetData from './GetData'
 import { updateGameData } from './DataHelper/Restore'
 
-const client_test = false;
+const client_test = true;
 
 // 測試使用
 function PushData(newData){
@@ -14,6 +14,7 @@ function PushData(newData){
         for(let i = 0; i < updateGameData.data.length; i++){
             if(updateGameData.data[i].kind === "z" && updateGameData.data[i].name === newData.name){
                 updateGameData.data[i].r = newData.r
+                updateGameData.data[i].vel = newData.vel
                 flag = false
             }
         }

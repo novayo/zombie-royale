@@ -29,7 +29,7 @@ function Start() {
             InitUser(UpdateData, SendData, () => RenderUser(user, wall)); // 之後要拿掉或改成LoadData()
         }
 
-        MoveEngine(2);
+        MoveEngine();
 
         // eslint-disable-next-line
     }, [])

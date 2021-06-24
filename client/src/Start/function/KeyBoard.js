@@ -4,30 +4,38 @@ import SendData from '../../Data/SendData'
 import GetMyUser from './GetMyUser'
 import SplitData from './SplitData'
 
-export var keyboard = {
+var keyboard = {
     keyup: new Set(["z", "x", "w"]),
     keydown: new Set(["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"]),
     active: new Set()
 }
 
-export const MoveEvent = (key, speed) => {
+const VelFunction = (vel) => {
+    if(vel > 3){
+        return vel;
+    }else{
+        return vel + 0.01;
+    }
+}
+
+const MoveEvent = (key, vel) => {
 
     switch (key) {
         case "ArrowUp":
-            return [0, -speed];
+            return [0, -vel];
         case "ArrowDown":
-            return [0, speed];
+            return [0, vel];
         case "ArrowLeft":
-            return [-speed, 0];
+            return [-vel, 0];
         case "ArrowRight":
-            return [speed, 0];
+            return [vel, 0];
         default:
             return [0, 0];
       }
     
 }
 
-export const MoveEngine = (speed) => {
+export const MoveEngine = () => {
 
     setInterval(() => {
         if(keyboard.active.size === 0){
@@ -40,7 +48,7 @@ export const MoveEngine = (speed) => {
 
         var move = [0, 0];
         for (let action of keyboard.active.values()){
-            move = [move[0] + MoveEvent(action, speed)[0], move[1] + MoveEvent(action, speed)[1]]
+            move = [move[0] + MoveEvent(action, user.myUser.vel)[0], move[1] + MoveEvent(action, user.myUser.vel)[1]]
         }
     
         var collision = Collision(user.myUser.r, move, user.allUser, wall, 12, 20, 100, { left: [0, 500], top: [0, 500] });
@@ -52,7 +60,7 @@ export const MoveEngine = (speed) => {
         if (collision.event) {
             var originUser = user.myUser.r
             originUser = [originUser[0] + move[0], originUser[1] + move[1]];
-            SendData("setUser", { r: originUser, kind: "z", name: GetData("name"), room: GetData("room") });
+            SendData("setUser", { r: originUser, vel: VelFunction(user.myUser.vel), kind: "z", name: GetData("name"), room: GetData("room") });
         }
 
         // console.log(user.myUser.r);
@@ -66,23 +74,23 @@ export const KeyUp = (key) => {
 
     keyboard.active.delete(key);
 
+    if (keyboard.active.size === 0) {
+        SendData("setUser", { r: GetMyUser(SplitData(GetData("updateGameData")).user).r, vel: 1, kind: "z", name: GetData("name"), room: GetData("room") });
+    }
+
     if (!keyboard.keyup.has(key)) {
         return
     }
 
-    SendData("setUser", { r: [Math.floor(Math.random() * 500), Math.floor(Math.random() * 500)], kind: key, name: GetData("name"), room: GetData("room") });
+    SendData("setUser", { r: [Math.floor(Math.random() * 500), Math.floor(Math.random() * 500)], vel: 1, kind: key, name: GetData("name"), room: GetData("room") });
 
 }
 
 export const KeyDown = (key) => {
-    if (!keyboard.keydown.has(key)) {
+    if (!keyboard.keydown.has(key) || keyboard.active.has(key)) {
         return
     }
 
-    if(keyboard.active.has(key)){
-        return
-    }else{
-        keyboard.active.add(key)
-    }
+    keyboard.active.add(key)
 
 }
