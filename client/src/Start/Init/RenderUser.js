@@ -1,5 +1,5 @@
 import GetData from '../../Data/GetData'
-import SplitData from './SplitData'
+import SplitData from '../function/SplitData'
 
 
 function RenderUser(user, wall) {

@@ -6,7 +6,7 @@ import RenderUser from './Init/RenderUser'
 import InitUser from './Init/InitUser'
 import { userContext } from '../Core/Index';
 import { wallContext } from '../Core/Index';
-import { KeyUp, KeyDown } from './function/KeyBoard'
+import { KeyUp, KeyDown, MoveEngine } from './function/KeyBoard'
 import { MouseDown } from './function/Mouse'
 import Factory from './Object/Factory/Factory'
 import GetMyUser from './function/GetMyUser'
@@ -29,6 +29,8 @@ function Start() {
             InitUser(UpdateData, SendData, () => RenderUser(user, wall)); // 之後要拿掉或改成LoadData()
         }
 
+        MoveEngine(2);
+
         // eslint-disable-next-line
     }, [])
 
@@ -41,7 +43,7 @@ function Start() {
     }, [user.get, wall.get])
 
     const handleKeyDown = useCallback((event) => {
-        KeyDown(event.key, {allUser: user.get, myUser: GetMyUser(user.get)}, wall.get)
+        KeyDown(event.key)
         // eslint-disable-next-line
     }, [user.get, wall.get])
 

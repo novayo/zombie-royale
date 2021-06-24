@@ -23,5 +23,5 @@ export var map = {
 }
 
 export var updateGameData = {
-    "data": null
+    "data": []
 };
