@@ -7,7 +7,7 @@ function InitUser(UpdateData, SendData, RenderUser) {
     const user = {
         '_id': GetData('_id'),
         'r': [Math.floor(Math.random() * size), Math.floor(Math.random() * size)],
-        'vel': [1, 1],
+        'vel': [0, 0],
         'kind': "z",
         'name': GetData("name"),
         'room': GetData("room")

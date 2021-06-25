@@ -1,21 +1,36 @@
-// import Focus from './Process/Focus'
-import {circleInterval, circleRect} from './Process/Event'
-import Handle from './Process/Handle'
+import Focus from './Process/Focus'
+import { circleInterval, circleRect } from './Process/Event'
+import { circleIntervalHandle, circleRectHandle } from './Process/Handle'
 
-function Collision(myCirclePos, speedVector, circle, rect, rad, width, height, range) {
-    const focus = {circle: circle, rect: rect};//Focus(circle, rect, range);
-    const circleRectEvent = circleRect(myCirclePos, speedVector, rect, rad, width, height);
-    if(circleRectEvent.event){
-        return {event: false}
+const VelFunction = (vel) => {
+    if(vel > 6 || vel < -6 || vel === 0){ // vel正常來說在此處不會有0的情況
+        return vel;
+    }else if(vel > 0){
+        return vel + 0.01;
+    }else{
+        return vel - 0.01;
     }
+}
 
-    const circleIntervalEvent = circleInterval(myCirclePos, speedVector, circle, rad);
+function Collision(myCirclePos, velVector, circle, rect, rad, width, height, range) {
+
+    // range內的物件判斷碰撞
+    const focus = Focus(circle, rect, range);
+
+    // circle和circle部碰撞
+    const circleIntervalEvent = circleInterval(myCirclePos, focus.circle, rad);
     if(circleIntervalEvent.event){
-        
-        return {event: false} // Handle(speedVector, myCirclePos, focus.circle[circleIntervalEvent.index].r);
+        return circleIntervalHandle(velVector, myCirclePos, focus.circle[circleIntervalEvent.index].r);
     }
 
-    return {event: true}
+    // circle和rect部碰撞
+    const circleRectEvent = circleRect(myCirclePos, focus.rect, rad, width, height);
+    if(circleRectEvent.event){
+        return circleRectHandle(velVector, myCirclePos, focus.rect[circleRectEvent.index].r, width, height)
+    }
+
+    // 若皆無碰撞事件
+    return [VelFunction(velVector[0]), VelFunction(velVector[1])]
     
 }
 
