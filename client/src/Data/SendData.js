@@ -1,7 +1,7 @@
 import GetData from './GetData'
 import { updateGameData } from './DataHelper/Restore'
 
-const client_test = true;
+const client_test = false;
 
 // 測試使用
 function PushData(newData){

@@ -36,7 +36,7 @@ module.exports = class Handler {
         this.user_data[_id]['kind'] = kind
         this.user_data[_id]['r'] = r
         //this.user_data[_id]['pos'] = pos
-        this.user_data[_id]['vel'] = vel        
+        this.user_data[_id]['vel'] = vel      
     }
 
     setRoomBroadcastData(room, data) {
@@ -67,7 +67,7 @@ module.exports = class Handler {
                             'r': tmp_user_data['r'],        //'pos': tmp_user_data['pos'],
                             'room': tmp_user_data['room'],
                             'kind': tmp_user_data['kind'],
-                            'name': tmp_user_data['name'], // 之後要區分是誰射出的子彈
+                            'name': tmp_user_data['name'],
                             'vel': tmp_user_data['vel'],
                         })
                         break;
