@@ -9,7 +9,7 @@ hooks:
 #      timeout: 300
 #      runas: root
  AfterInstall:
-   - location: /home/ubuntu/app/zombie-royale/startup.sh
+   - location: startup.sh
      timeout: 300
 #  ApplicationStart:
 #    - location: /home/ubuntu/app/startup.sh

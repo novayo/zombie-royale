@@ -1,17 +1,20 @@
 import React from 'react';
-import { InitData } from '../Data/InitData';
+import InitData from '../Data/InitData';
 import queryString from 'query-string';
 import { Link } from 'react-router-dom';
-
-
 
 
 function Hall({ location }) {
     const { name, passward } = queryString.parse(location.search);
 
-
     const StartButton = () => {
         InitData(name, passward);
+
+        return;
+
+        // const Hall_To_Start = () => {
+        //     if(GetData("update").state)
+        // }
     }
 
     return (

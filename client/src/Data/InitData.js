@@ -1,6 +1,5 @@
-import io from 'socket.io-client';
-import { URL, user, map, update } from './Restore'
-import { GetData } from '../Data/GetData'
+import { user, update } from './DataHelper/Restore'
+import HotData from './DataHelper/HotData'
 
 let TEST = true;
 
@@ -11,9 +10,7 @@ const guid = () => {
     });
 }
 
-export function InitData(name, passward) {
-    let socket = GetData("socket");
-
+async function InitData(name, passward) {
     const _id = guid();
 
     let data = {
@@ -25,21 +22,22 @@ export function InitData(name, passward) {
     }
 
     if (TEST) {
-        data['room'] = '25'
-        user.Room = '25'
+        data["room"] = "25";
+        user["room"] = "25";
     }
 
-    socket.emit("SetRoom", data)
-    // socket.emit("SetRoom", {username: name, passward: passward})
-    socket.once("getRoom", (data) => {
-        user.Room = data.room;
-        // map.size = data.map.size // 需討論 若造自動分配地圖就和Room綁再一起
-        // map.kind = data.map.kind // 需討論
-        // map.data = data.map.data // 需討論
-        // socket.disconnect();
-    })
-    user._id = _id;
-    user.name = name;
-    update.state = true;
+    // const ret = await HotData("SetRoom", "getRoom", data)
+
+    // user["room"] = ret["room"];
+    user["_id"] = data["_id"];
+    user["name"] = data["username"];
+    
+    update["state"] = true;
+
+    const ret = await HotData("SetRoom", "getRoom", data)
+
+    console.log("InitData Complete !!! Do not forget solve this problem")
 
 }
+
+export default InitData;

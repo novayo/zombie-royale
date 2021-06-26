@@ -8,7 +8,7 @@ const Login = () => {
     return (
         <div>
             <div>
-                <h1>Login Test4</h1>
+                <h1>Login Test CICD</h1>
                 <div><input placeholder="name" type="text" onChange={(event) => setName(event.target.value)} /></div>
                 <div><input placeholder="passward" type="text" onChange={(event) => setPassward(event.target.value)} /></div>
                 <Link onClick={event => (!name && !passward) ? event.preventDefault() : null} to={`/Hall?name=${name}&passward=${passward}`}>

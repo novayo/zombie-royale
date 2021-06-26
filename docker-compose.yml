@@ -7,6 +7,7 @@ services:
       - ${SERVER_PORT}
     environment:
       CLIENT_URL: ${CLIENT_URL}
+      CLIENT_PORT: ${CLIENT_PORT}
       SERVER_URL: ${SERVER_URL}
       SERVER_PORT: ${SERVER_PORT}
     volumes: 
@@ -19,8 +20,10 @@ services:
     expose:
       - ${CLIENT_PORT}
     environment:
-      CLIENT_URL: ${CLIENT_URL}
-      CLIENT_PORT: ${CLIENT_PORT}
+      REACT_APP_CLIENT_URL: ${CLIENT_URL}
+      REACT_APP_CLIENT_PORT: ${CLIENT_PORT}
+      REACT_APP_SERVER_URL: ${SERVER_URL}
+      REACT_APP_SERVER_PORT: ${SERVER_PORT}
     volumes: 
       - ./client/src:/app/shihchungyu/client/src
       - ./client/public:/app/shihchungyu/client/public
