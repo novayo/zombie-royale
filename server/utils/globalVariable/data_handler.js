@@ -51,24 +51,43 @@ module.exports = class Handler {
     }
 
     getRoomBroadcastData(room) {
-        let data = []
+        let retData = {}
+        let userData = []
+        let bullet = []
         // let roomData = this.room_data //copy
         if (room in this.room_data) {
             let player_id_list = this.room_data[room]['_id']
 
             for (let player_id of player_id_list) {
                 let tmp_user_data = this.user_data[player_id]
-                data.push({
-                    'r': tmp_user_data['r'],        //'pos': tmp_user_data['pos'],
-                    'room': tmp_user_data['room'],
-                    'kind': tmp_user_data['kind'],
-                    'name': tmp_user_data['name'], // 之後要區分是誰射出的子彈
-                    'vel': tmp_user_data['vel'],
-                })
+
+                switch(tmp_user_data['kind']){
+                    case 'z':
+                        userData.push({
+                            'r': tmp_user_data['r'],        //'pos': tmp_user_data['pos'],
+                            'room': tmp_user_data['room'],
+                            'kind': tmp_user_data['kind'],
+                            'name': tmp_user_data['name'], // 之後要區分是誰射出的子彈
+                            'vel': tmp_user_data['vel'],
+                        })
+                        break;
+                    case 'w':
+                        break;
+                    case 'x':
+                        bullet.push({
+                            'r': tmp_user_data['r'],        //'pos': tmp_user_data['pos'],
+                            'room': tmp_user_data['room'],
+                            'kind': tmp_user_data['kind'],
+                            'name': tmp_user_data['name'], // 之後要區分是誰射出的子彈
+                            'vel': tmp_user_data['vel'],
+                        })
+                }
+                
             }
         }
+        retData = {'user': userData, 'bullet': bullet}
 
-        return data
+        return retData;
     }
 
     getAllBroadCastRoomData() {
@@ -132,7 +151,6 @@ module.exports = class Handler {
 
     roomEmpty(room){
         
-        console.log(this.room_data[room])
         //var roomData =  this.room_data[room]['_id']
         /*
         for(let user in roomData)

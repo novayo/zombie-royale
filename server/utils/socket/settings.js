@@ -60,14 +60,14 @@ module.exports = socket_settings = (io) => {
         })
 
         socket.on('setObject', (data) =>{
+            console.log(data)
             let _id = data['_id']
             let r = data['r']   //var pos = data['pos']
             let kind = data['kind']
             let name = data['name']
             let room = data['room']
-            let vel = data['room']
-            if(name!="")
-                gv_.setUserInfo(_id, name, room, kind, r, vel)
+            let vel = data['vel']
+            gv_.setUserInfo(_id, name, room, kind, r, vel)
             
         })
 
