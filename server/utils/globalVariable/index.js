@@ -10,8 +10,8 @@ class globalVariable {
         this.handler.addUser(_id, name, room, tick)
     }
 
-    setUserInfo(_id, name, room, kind, r) {
-        this.handler.setUserInfo(_id, name, room, kind, r);
+    setUserInfo(_id, name, room, kind, r, vel) {
+        this.handler.setUserInfo(_id, name, room, kind, r, vel);
     }
 
     setRoomBroadcastData(room, data) {
@@ -41,6 +41,26 @@ class globalVariable {
 
     getRoomTick(room) {
         return this.handler.getRoomTick(room);
+    }
+
+    removeUserFromRoom(_id){
+        return this.handler.removeUserFromRoom(_id);
+    }
+
+    removeUserAllData(_id){
+        return this.handler.removeUserAllData(_id);
+    }
+
+    setRoomInterval(room, intervalID){
+        return this.handler.setRoomInterval(room, intervalID);
+    }
+
+    getRoomInterval(room){
+        return this.handler.getRoomInterval(room);
+    }
+
+    roomEmpty(room){
+        return this.handler.roomEmpty(room)
     }
 }
 
