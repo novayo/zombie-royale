@@ -51,16 +51,8 @@ class globalVariable {
         return this.handler.removeUserAllData(_id);
     }
 
-    setRoomInterval(room, intervalID){
-        return this.handler.setRoomInterval(room, intervalID);
-    }
-
-    getRoomInterval(room){
-        return this.handler.getRoomInterval(room);
-    }
-
     roomEmpty(room){
-        return this.handler.roomEmpty(room)
+        return this.handler.roomEmpty(room);
     }
 }
 

@@ -132,7 +132,8 @@ module.exports = class Handler {
 
     roomEmpty(room){
         
-        var roomData =  this.room_data[room]['_id']
+        console.log(this.room_data[room])
+        //var roomData =  this.room_data[room]['_id']
         /*
         for(let user in roomData)
             if(user['state']!="DISCONNECTED"){
