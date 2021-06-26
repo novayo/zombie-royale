@@ -71,9 +71,16 @@ module.exports = class Handler {
                             'vel': tmp_user_data['vel'],
                         })
                         break;
-                    case 'w':
-                        break;
                     case 'x':
+                        userData.push({
+                            'r': tmp_user_data['r'],        //'pos': tmp_user_data['pos'],
+                            'room': tmp_user_data['room'],
+                            'kind': tmp_user_data['kind'],
+                            'name': tmp_user_data['name'],
+                            'vel': tmp_user_data['vel'],
+                        })
+                        break;
+                    case 'bullet':
                         bullet.push({
                             'r': tmp_user_data['r'],        //'pos': tmp_user_data['pos'],
                             'room': tmp_user_data['room'],
@@ -81,6 +88,10 @@ module.exports = class Handler {
                             'name': tmp_user_data['name'], // 之後要區分是誰射出的子彈
                             'vel': tmp_user_data['vel'],
                         })
+                        break;
+
+                    default:
+                        break;
                 }
                 
             }
