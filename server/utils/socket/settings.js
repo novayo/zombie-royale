@@ -5,9 +5,8 @@ const SetRoomBroadcast = require('./broadcast');
 module.exports = socket_settings = (io) => {
     io.on('connection', (socket) => {
         socket.on('SetRoom', (data) => {
-            _id = data['_id']
+            let _id = data['_id']
             let username = data['username']
-            let password = data['password']
             let room = data['room']
             let tick = data['tick']
 
@@ -19,7 +18,7 @@ module.exports = socket_settings = (io) => {
             socket.join(room);
             
             SetRoomBroadcast(io, room);
-            socket.emit('getRoom', { 'room': room });
+            socket.emit('getRoom', { 'room': room , "_id" : _id});
         })
 
         socket.on('setUser', (data) => {
@@ -35,7 +34,6 @@ module.exports = socket_settings = (io) => {
         })
 
         socket.on('disconnect', () =>{
-            //未來改成延遲timeout->
             socket.emit('disconnected');
         })
 
@@ -47,6 +45,7 @@ module.exports = socket_settings = (io) => {
             var retData = {}
             var _id = data['_id']
             var kind = data['kind']
+            let ret_Data = ""
             switch(kind){     
                 //根據kind做對應的事
                 default:
@@ -54,23 +53,31 @@ module.exports = socket_settings = (io) => {
             }
             retData['_id'] = _id;
             retData['kind'] = kind
-            retData['data'] = ""
+            retData['data'] = ret_Data
             socket.emit('retData', retData)
 
         })
 
         socket.on('setObject', (data) =>{
             let _id = data['_id']
-            let r = data['r']   //var pos = data['pos']
+            let pos = data['pos']
             let kind = data['kind']
-            let name = data['name']
+            let name = data['username']
             let room = data['room']
             let vel = data['vel']
-            gv_.setUserInfo(_id, name, room, kind, r, vel)
+            
+            switch(kind){
+                case 'user':
+                    gv_.setUserInfo(_id, name, room, kind, pos, vel)
+                    break;
+                case 'bullet':  
+                    //之後要新增
+                    break;
+                default:
+                    break;
+            }
             
         })
-
-
 
     });
 }

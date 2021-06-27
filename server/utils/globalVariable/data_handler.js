@@ -2,7 +2,7 @@
 module.exports = class Handler {
     constructor() {
         this.user_data = {} // {'_id': {'name', 'room', 'kind', 'r', 'vel'}}
-        this.room_data = {} // {'room' : {'_id':[_id], 'tick', 'bullet'}} maybe -> {'room' : {'_id':[( _id, state)], 'tick', 'intervalID'}}
+        this.room_data = {} // {'room' : {'_id':[_id], 'tick', 'bullet', 'roomState'}}
         this.roomBroadcastData = {} // {'room': null}
     }
 
@@ -39,6 +39,11 @@ module.exports = class Handler {
         this.user_data[_id]['vel'] = vel      
     }
 
+    setObjectInfo(name, room, kind, r, vel){
+        
+
+    }
+
     setRoomBroadcastData(room, data) {
         if (!(room in this.roomBroadcastData)) {
             this.roomBroadcastData[room] = null
@@ -63,15 +68,6 @@ module.exports = class Handler {
 
                 switch(tmp_user_data['kind']){
                     case 'z':
-                        userData.push({
-                            'r': tmp_user_data['r'],        //'pos': tmp_user_data['pos'],
-                            'room': tmp_user_data['room'],
-                            'kind': tmp_user_data['kind'],
-                            'name': tmp_user_data['name'],
-                            'vel': tmp_user_data['vel'],
-                        })
-                        break;
-                    case 'x':
                         userData.push({
                             'r': tmp_user_data['r'],        //'pos': tmp_user_data['pos'],
                             'room': tmp_user_data['room'],

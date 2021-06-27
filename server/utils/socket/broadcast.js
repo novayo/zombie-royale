@@ -18,7 +18,6 @@ SetRoomBroadcast = (io, room) => {
         data = gv_.getRoomBroadcastData(room);
         io.to(room).emit('updateGameData', data);
         //console.log(`房間:${room}->當前所有使用者名稱：${room} , TICK = ${tick}`);
-        console.log(data)
         if(gv_.roomEmpty(room)){
             //console.log('interval stop')
             clearInterval(roomInterval)
