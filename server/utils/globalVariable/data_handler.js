@@ -74,6 +74,7 @@ module.exports = class Handler {
                             'kind': tmp_user_data['kind'],
                             'name': tmp_user_data['name'],
                             'vel': tmp_user_data['vel'],
+                            '_id' : player_id,
                         })
                         break;
                     case 'bullet':
